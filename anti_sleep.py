@@ -37,6 +37,17 @@ INPUT_KEYBOARD = 1
 # ============================================================
 # Windows API 结构体
 # ============================================================
+class MOUSEINPUT(ctypes.Structure):
+    _fields_ = [
+        ("dx", ctypes.wintypes.LONG),
+        ("dy", ctypes.wintypes.LONG),
+        ("mouseData", ctypes.wintypes.DWORD),
+        ("dwFlags", ctypes.wintypes.DWORD),
+        ("time", ctypes.wintypes.DWORD),
+        ("dwExtraInfo", ctypes.POINTER(ctypes.c_ulong)),
+    ]
+
+
 class KEYBDINPUT(ctypes.Structure):
     _fields_ = [
         ("wVk", ctypes.wintypes.WORD),
@@ -47,9 +58,21 @@ class KEYBDINPUT(ctypes.Structure):
     ]
 
 
+class HARDWAREINPUT(ctypes.Structure):
+    _fields_ = [
+        ("uMsg", ctypes.wintypes.DWORD),
+        ("wParamL", ctypes.wintypes.WORD),
+        ("wParamH", ctypes.wintypes.WORD),
+    ]
+
+
 class INPUT(ctypes.Structure):
     class _INPUT(ctypes.Union):
-        _fields_ = [("ki", KEYBDINPUT)]
+        _fields_ = [
+            ("mi", MOUSEINPUT),
+            ("ki", KEYBDINPUT),
+            ("hi", HARDWAREINPUT),
+        ]
 
     _fields_ = [
         ("type", ctypes.wintypes.DWORD),
@@ -113,6 +136,7 @@ def press_capslock(delay_ms):
     inp_up._input.ki.dwExtraInfo = ctypes.pointer(extra)
 
     ctypes.windll.user32.SendInput(1, ctypes.pointer(inp_down), ctypes.sizeof(INPUT))
+    time.sleep(delay_ms / 1000.0)
     ctypes.windll.user32.SendInput(1, ctypes.pointer(inp_up), ctypes.sizeof(INPUT))
 
 
