@@ -1,0 +1,12 @@
+encryption:
+  # AES-256 密钥（Base64 编码，解码后 32 字节）
+  rt-key: ""
+
+  # HMAC 密钥（Base64 编码）
+  hmac-key: ""
+
+  # RSA 公钥（PEM 格式）
+  rsa-public-key: ""
+
+  # RSA 私钥（PEM 格式，PKCS#8）
+  rsa-private-key: ""
