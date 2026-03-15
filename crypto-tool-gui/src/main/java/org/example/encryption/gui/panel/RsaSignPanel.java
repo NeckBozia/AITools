@@ -1,8 +1,7 @@
 package org.example.encryption.gui.panel;
 
 import org.example.encryption.RsaSigningTool;
-import org.example.encryption.gui.util.ConfigManager;
-import org.example.encryption.gui.util.UIHelper;
+import org.example.encryption.gui.util.*;
 
 import javax.swing.*;
 import java.awt.*;
@@ -22,66 +21,71 @@ public class RsaSignPanel extends JPanel {
     public RsaSignPanel(ConfigManager config) {
         this.config = config;
         setLayout(new GridBagLayout());
+        setBackground(Theme.BG);
+        setBorder(Theme.panelPadding());
         GridBagConstraints gbc = new GridBagConstraints();
-        gbc.insets = new Insets(4, 10, 4, 10);
+        gbc.insets = new Insets(3, 0, 3, 0);
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.gridwidth = 2;
 
-        // Row 0: Private key label
+        // Private key
         gbc.gridx = 0; gbc.gridy = 0;
-        add(new JLabel("私钥 (PEM, PKCS#8) - 签名用:"), gbc);
+        add(Theme.sectionLabel("私钥 (PEM, PKCS#8) - 签名用"), gbc);
 
-        // Row 1: Private key area
-        gbc.gridy = 1; gbc.fill = GridBagConstraints.BOTH; gbc.weighty = 0.5;
+        gbc.gridy = 1; gbc.fill = GridBagConstraints.BOTH; gbc.weighty = 0.4;
         JScrollPane privScroll = UIHelper.createScrollableTextArea(4, true);
         privateKeyArea = UIHelper.getTextArea(privScroll);
         privateKeyArea.setText(config.get(ConfigManager.RSA_PRIVATE_KEY));
         add(privScroll, gbc);
 
-        // Row 2: Public key label
+        // Public key
         gbc.gridy = 2; gbc.fill = GridBagConstraints.HORIZONTAL; gbc.weighty = 0;
-        add(new JLabel("公钥 (PEM) - 验签用:"), gbc);
+        add(Theme.sectionLabel("公钥 (PEM) - 验签用"), gbc);
 
-        // Row 3: Public key area
-        gbc.gridy = 3; gbc.fill = GridBagConstraints.BOTH; gbc.weighty = 0.5;
+        gbc.gridy = 3; gbc.fill = GridBagConstraints.BOTH; gbc.weighty = 0.4;
         JScrollPane pubScroll = UIHelper.createScrollableTextArea(4, true);
         publicKeyArea = UIHelper.getTextArea(pubScroll);
         publicKeyArea.setText(config.get(ConfigManager.RSA_PUBLIC_KEY));
         add(pubScroll, gbc);
 
-        // Row 4: Payload label
+        // Separator
         gbc.gridy = 4; gbc.fill = GridBagConstraints.HORIZONTAL; gbc.weighty = 0;
-        add(new JLabel("Payload:"), gbc);
+        gbc.insets = new Insets(6, 0, 6, 0);
+        JSeparator sep = new JSeparator(); sep.setForeground(Theme.BORDER);
+        add(sep, gbc);
 
-        // Row 5: Payload area
-        gbc.gridy = 5; gbc.fill = GridBagConstraints.BOTH; gbc.weighty = 0.3;
+        // Payload
+        gbc.gridy = 5; gbc.insets = new Insets(3, 0, 3, 0);
+        add(Theme.sectionLabel("Payload"), gbc);
+
+        gbc.gridy = 6; gbc.fill = GridBagConstraints.BOTH; gbc.weighty = 0.3;
         JScrollPane payloadScroll = UIHelper.createScrollableTextArea(3, true);
         payloadArea = UIHelper.getTextArea(payloadScroll);
         add(payloadScroll, gbc);
 
-        // Row 6: Signature label + field
-        gbc.gridy = 6; gbc.fill = GridBagConstraints.HORIZONTAL; gbc.weighty = 0;
-        gbc.gridwidth = 1;
-        gbc.gridx = 0; gbc.weightx = 0;
-        add(new JLabel("签名 (Base64):"), gbc);
+        // Signature field
+        gbc.gridy = 7; gbc.fill = GridBagConstraints.HORIZONTAL; gbc.weighty = 0;
+        gbc.gridwidth = 1; gbc.gridx = 0; gbc.weightx = 0;
+        add(Theme.hintLabel("签名 (Base64):"), gbc);
         signatureField = new JTextField(50);
-        gbc.gridx = 1; gbc.weightx = 1;
+        Theme.styleTextField(signatureField);
+        gbc.gridx = 1; gbc.weightx = 1; gbc.insets = new Insets(3, 8, 3, 0);
         add(signatureField, gbc);
 
-        // Row 7: Buttons
-        gbc.gridx = 0; gbc.gridy = 7; gbc.gridwidth = 2; gbc.weightx = 0;
-        JButton signBtn = new JButton("签名");
-        JButton verifyBtn = new JButton("验签");
-        JButton genKeyBtn = new JButton("生成密钥对");
-        JButton clearBtn = new JButton("清空");
-        add(UIHelper.createButtonRow(signBtn, verifyBtn, genKeyBtn, clearBtn), gbc);
+        // Buttons
+        gbc.gridx = 0; gbc.gridy = 8; gbc.gridwidth = 2; gbc.weightx = 0;
+        gbc.insets = new Insets(10, 0, 10, 0);
+        JButton signBtn = Theme.primaryButton("签名");
+        JButton verifyBtn = Theme.primaryButton("验签");
+        JButton genKeyBtn = Theme.secondaryButton("生成密钥对");
+        JButton clearBtn = Theme.dangerButton("清空");
+        add(UIHelper.createCenteredButtonRow(signBtn, verifyBtn, genKeyBtn, clearBtn), gbc);
 
-        // Row 8: Result label
-        gbc.gridy = 8;
-        add(new JLabel("结果:"), gbc);
+        // Result
+        gbc.gridy = 9; gbc.insets = new Insets(3, 0, 3, 0);
+        add(Theme.sectionLabel("结果"), gbc);
 
-        // Row 9: Result area
-        gbc.gridy = 9; gbc.fill = GridBagConstraints.BOTH; gbc.weighty = 0.3;
+        gbc.gridy = 10; gbc.fill = GridBagConstraints.BOTH; gbc.weighty = 0.2;
         JScrollPane resultScroll = UIHelper.createScrollableTextArea(3, false);
         resultArea = UIHelper.getTextArea(resultScroll);
         add(resultScroll, gbc);
@@ -106,7 +110,6 @@ public class RsaSignPanel extends JPanel {
         new SwingWorker<String, Void>() {
             @Override
             protected String doInBackground() throws Exception {
-                // Strip PEM headers to get raw Base64 for RsaSigningTool.parsePrivateKey
                 String base64Key = privPem
                         .replace("-----BEGIN PRIVATE KEY-----", "")
                         .replace("-----END PRIVATE KEY-----", "")

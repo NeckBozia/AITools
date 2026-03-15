@@ -1,9 +1,7 @@
 package org.example.encryption.gui.panel;
 
 import org.example.encryption.HMACUtil;
-import org.example.encryption.gui.util.BatchProcessor;
-import org.example.encryption.gui.util.ConfigManager;
-import org.example.encryption.gui.util.UIHelper;
+import org.example.encryption.gui.util.*;
 
 import javax.swing.*;
 import java.awt.*;
@@ -19,56 +17,68 @@ public class HmacPanel extends JPanel {
     public HmacPanel(ConfigManager config) {
         this.config = config;
         setLayout(new GridBagLayout());
+        setBackground(Theme.BG);
+        setBorder(Theme.panelPadding());
         GridBagConstraints gbc = new GridBagConstraints();
-        gbc.insets = new Insets(5, 10, 5, 10);
+        gbc.insets = new Insets(4, 0, 4, 0);
         gbc.fill = GridBagConstraints.HORIZONTAL;
 
-        // Row 0: Key
-        gbc.gridx = 0; gbc.gridy = 0; gbc.weightx = 0;
-        add(new JLabel("HMAC 密钥 (Base64):"), gbc);
+        // Key section
+        gbc.gridx = 0; gbc.gridy = 0; gbc.gridwidth = 3;
+        add(Theme.sectionLabel("密钥配置"), gbc);
+
+        gbc.gridy = 1; gbc.gridwidth = 1; gbc.weightx = 0;
+        add(Theme.hintLabel("HMAC 密钥 (Base64):"), gbc);
 
         keyField = new JTextField(40);
         keyField.setText(config.get(ConfigManager.HMAC_KEY));
-        gbc.gridx = 1; gbc.weightx = 1;
+        Theme.styleTextField(keyField);
+        gbc.gridx = 1; gbc.weightx = 1; gbc.insets = new Insets(4, 8, 4, 8);
         add(keyField, gbc);
 
-        JButton loadKeyBtn = new JButton("从配置加载");
-        loadKeyBtn.addActionListener(e -> keyField.setText(config.get(ConfigManager.HMAC_KEY)));
-        gbc.gridx = 2; gbc.weightx = 0;
+        JButton loadKeyBtn = Theme.secondaryButton("从配置加载");
+        gbc.gridx = 2; gbc.weightx = 0; gbc.insets = new Insets(4, 0, 4, 0);
         add(loadKeyBtn, gbc);
 
-        // Row 1: Input label
-        gbc.gridx = 0; gbc.gridy = 1; gbc.gridwidth = 3;
-        add(new JLabel("输入明文 (每行一条):"), gbc);
+        // Separator
+        gbc.gridx = 0; gbc.gridy = 2; gbc.gridwidth = 3;
+        gbc.insets = new Insets(8, 0, 8, 0);
+        JSeparator sep = new JSeparator(); sep.setForeground(Theme.BORDER);
+        add(sep, gbc);
 
-        // Row 2: Input area
-        gbc.gridy = 2; gbc.fill = GridBagConstraints.BOTH; gbc.weighty = 1;
+        // Input
+        gbc.gridy = 3; gbc.insets = new Insets(4, 0, 4, 0);
+        add(Theme.sectionLabel("输入明文 (每行一条)"), gbc);
+
+        gbc.gridy = 4; gbc.fill = GridBagConstraints.BOTH; gbc.weighty = 1;
         JScrollPane inputScroll = UIHelper.createScrollableTextArea(8, true);
         inputArea = UIHelper.getTextArea(inputScroll);
         add(inputScroll, gbc);
 
-        // Row 3: Buttons
-        gbc.gridy = 3; gbc.fill = GridBagConstraints.HORIZONTAL; gbc.weighty = 0;
-        JButton hmacBtn = new JButton("计算 HMAC");
-        JButton clearBtn = new JButton("清空");
-        add(UIHelper.createButtonRow(hmacBtn, clearBtn), gbc);
+        // Buttons
+        gbc.gridy = 5; gbc.fill = GridBagConstraints.HORIZONTAL; gbc.weighty = 0;
+        gbc.insets = new Insets(10, 0, 10, 0);
+        JButton hmacBtn = Theme.primaryButton("计算 HMAC");
+        JButton clearBtn = Theme.dangerButton("清空");
+        add(UIHelper.createCenteredButtonRow(hmacBtn, clearBtn), gbc);
 
-        // Row 4: Output label
-        gbc.gridy = 4;
-        add(new JLabel("HMAC 输出 (十六进制):"), gbc);
+        // Output
+        gbc.gridy = 6; gbc.insets = new Insets(4, 0, 4, 0);
+        add(Theme.sectionLabel("HMAC 输出 (十六进制)"), gbc);
 
-        // Row 5: Output area
-        gbc.gridy = 5; gbc.fill = GridBagConstraints.BOTH; gbc.weighty = 1;
+        gbc.gridy = 7; gbc.fill = GridBagConstraints.BOTH; gbc.weighty = 1;
         JScrollPane outputScroll = UIHelper.createScrollableTextArea(8, false);
         outputArea = UIHelper.getTextArea(outputScroll);
         add(outputScroll, gbc);
 
-        // Row 6: Copy button
-        gbc.gridy = 6; gbc.fill = GridBagConstraints.HORIZONTAL; gbc.weighty = 0;
-        JButton copyBtn = new JButton("复制输出");
-        add(UIHelper.createButtonRow(copyBtn), gbc);
+        // Copy
+        gbc.gridy = 8; gbc.fill = GridBagConstraints.HORIZONTAL; gbc.weighty = 0;
+        gbc.insets = new Insets(10, 0, 4, 0);
+        JButton copyBtn = Theme.successButton("复制输出");
+        add(UIHelper.createCenteredButtonRow(copyBtn), gbc);
 
         // Actions
+        loadKeyBtn.addActionListener(e -> keyField.setText(config.get(ConfigManager.HMAC_KEY)));
         hmacBtn.addActionListener(e -> doHmac());
         clearBtn.addActionListener(e -> { inputArea.setText(""); outputArea.setText(""); });
         copyBtn.addActionListener(e -> {
