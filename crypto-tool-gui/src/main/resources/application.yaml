@@ -1,12 +1,49 @@
 encryption:
   # AES-256 密钥（Base64 编码，解码后 32 字节）
-  rt-key: ""
+  rt-key: "Z0qkF2h1OT7mF7F3pC4c0sCcf9T9uE0m4b4T8ZlR6nQ="
 
   # HMAC 密钥（Base64 编码）
-  hmac-key: ""
+  hmac-key: "Z0qkF2h1OT7mF7F3pC4c0sCcf9T9uE0m4b4T8ZlR6nQ="
 
   # RSA 公钥（PEM 格式）
-  rsa-public-key: ""
+  rsa-public-key: |
+    -----BEGIN PUBLIC KEY-----
+    MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA9xxAbFVFH0GqCsF3t5jJ
+    VBV6BkCv4UJFVVa1YbmP6zv43yzfb3EQRWR/U3glteA7gHhHYtcr4nADUjOPVTTm
+    gWXRQLHCq0XlFBr0+sEY96VGCkMVcThlkScJXmN4adn32W9OdrB3/CcKnqLMqrBO
+    Rpe3NhEZpzyTZaBEx6pZYHsYNUYmYSZuAdbh28ZCE4Zxebezgcf8GfHFJNnfAvQZ
+    JBMFcnpmD6nIrCCmWd2Q1aZpqaqP+KksEur4VlxPaWAfnOjTiwFKQjQwFmuKBRNS
+    i8h44HhYJ4s8uu5Q4Qxl6Qi8amimv2PV/6elozzWgN8w9RufvMUiSf0xkZ0ujN3b
+    IwIDAQAB
+    -----END PUBLIC KEY-----
 
   # RSA 私钥（PEM 格式，PKCS#8）
-  rsa-private-key: ""
+  rsa-private-key: |
+    -----BEGIN PRIVATE KEY-----
+    MIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQD3HEBsVUUfQaoK
+    wXe3mMlUFXoGQK/hQkVVVrVhuY/rO/jfLN9vcRBFZH9TeCW14DuAeEdi1yvicANS
+    M49VNOaBZdFAscKrReUUGvT6wRj3pUYKQxVxOGWRJwleY3hp2ffZb052sHf8Jwqe
+    osyqsE5Gl7c2ERmnPJNloETHqllgexg1RiZhJm4B1uHbxkIThnF5t7OBx/wZ8cUk
+    2d8C9BkkEwVyemYPqcisIKZZ3ZDVpmmpqo/4qSwS6vhWXE9pYB+c6NOLAUpCNDAW
+    a4oFE1KLyHjgeFgnizy67lDhDGXpCLxqaKa/Y9X/p6WjPNaA3zD1G5+8xSJJ/TGR
+    nS6M3dsjAgMBAAECggEAeM0A2XTd86fAHr3xbnlsgoR1QLVCxdYF2vAmf32dU5vf
+    0Ao5uFsHX0T/0ag8lyrlK6qhCzqxI2Mq3HaELV1NChjiMMQ1rFDg6fE7rZHUSMws
+    7ztYMh8l183DkLcD2ItL1KnLK86c+VGEqYRglVjXCz+DuxSk+9JrJBUzSoCGbNkK
+    VNPhSY01d28sT7+sF/UZ96TdD99/W7VWGEis+4faMpR2boouK5yRbbXQnwFjVyQ4
+    lLOVJq5hlTtXK92RPqdbQhOg/fo9uhdJCYQP7dLVqi+7GwakTSm+i4UOSsBqxrB0
+    kuboI/VuA4Lx8+Tcbg2B5/uuOginbxorBPFmQi9qYQKBgQD7FdA6wjyDYt76u/W5
+    F7m5LExdKZkWmP7f9Y/NdtNemm4g+vupzG3P2RdsgdRBrueF0OxI13g1CkkBel7W
+    2xCvPy2oowxyhd/GBXq+TuVfk41H/ny91dgqIjrofOzkCknJiA6K8hkCz+jKP8fR
+    yBniQt95Ugk6VvOaDocaDSG/KwKBgQD78oUyhGGbMK2gBHBxRU2HDxYvTARko5sp
+    OA6HdCZO5uuJVcEVOwvL/tBpKDqjzHC+uzmaxbALQLf7oMZHkoIt6+xVKb2M/WFh
+    w//KVpMtTuawX5BPxOwceogmDi/8zaLocA9TN5n6qwgN6e5P00SMc3LmPUr9B8CG
+    kDQNBe4X6QKBgQD3YWSJn/nzESTUMQBG3wNTWDvcxjFYvGDR06VdMCfM26aJw/7U
+    KuA+moujkr7IAEWH6HIEypZa28lWNXTfh3KG115q+ko3Q4NYHOn0OtNvOXdHaYsJ
+    lnml+ZfEm+DiROiyMOTzLNhLlwCq0/BR1i76aBy58YO6ARV9wbaGik2nhQKBgQCk
+    ysIYgsIc8b/+9ChfzkahWlrWYNBWyzRHx6SpMG2GGkBhObfrHQ3gRjEnNur0DFqK
+    RoetFjTJh3FPop9OXSPMyY1xPrX+rBSwD7UVMX9emUcGgdswcctF7Vd0HL+CiTZO
+    9kzvz2Rlssy33RTFHZiujSzQL7MGwbVJzrRc+E39UQKBgCfy7vqm/5Cucgx0S7k2
+    C9WUWG7QWzOvSoZM2l6RLMj3xCAGyqTSrPB0USenE8FJdUPQnISyXg6GWA/5Sbf6
+    ru/zUUyYHcnXJzPrEzkdjycMQdTxaDOK09X8fopZ5/rnEIgmgV1Kl/4v4VlDUBEp
+    UIX7CnJ3AtMzQ6YGL04uDjhO
+    -----END PRIVATE KEY-----
